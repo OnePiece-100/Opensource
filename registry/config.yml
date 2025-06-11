@@ -1,0 +1,26 @@
+version: 0.1
+log:
+  fields:
+    service: registry
+storage:
+  delete:
+    enabled: true
+  cache:
+    blobdescriptor: inmemory
+  filesystem:
+    rootdirectory: /var/lib/registry
+http:
+  addr: :5000
+  headers:
+    X-Content-Type-Options: [nosniff]
+auth:
+  htpasswd:
+    realm: Registry
+    path: /auth/htpasswd
+notifications:
+  endpoints:
+    - name: listener
+      url: http://backend:8000/api/webhook
+      timeout: 500ms
+      threshold: 5
+      backoff: 1s
